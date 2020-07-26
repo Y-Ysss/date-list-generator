@@ -1,0 +1,104 @@
+
+#bodyMain {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#bodyMain > div {
+    background-color: #eee;
+    padding: 1rem;
+    margin: .2rem;
+}
+.option-item {
+    margin: .4rem;
+}
+.option-item > span {
+    display: inline-block;
+    width: 6rem;
+    text-align: right;
+}
+.title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+input {
+    border-radius: .6rem;
+    padding: .4rem 1rem;
+    border: 1px solid #bbb;
+    text-align: center;
+}
+input[type=number] {
+    padding: .4rem .5rem .4rem 1.5rem;
+}
+.input-wide {
+    width: 16rem;
+}
+
+.input-short {
+    width: 4rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: .4rem 1rem;
+    background-color: lightskyblue;
+    border-radius: .6rem;
+    cursor: pointer;
+    box-shadow: 0 .2rem .4rem rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: none;
+}
+#date-list-view {
+    grid-column: 1/3;
+}
+#date-list {
+    background-color: #fff;
+    border-radius: .6rem;
+    padding-inline-start: 3.5rem;
+}
+.list-item {
+    padding: .4rem;
+}
+
+.sunday,
+.flatpickr-calendar .flatpickr-innerContainer .flatpickr-weekdays .flatpickr-weekday:nth-child(7n + 1),
+.flatpickr-calendar .flatpickr-innerContainer .flatpickr-days .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):nth-child(7n + 1) {
+    color: rgb(255, 112, 112);
+}
+ 
+.saturday
+.flatpickr-calendar .flatpickr-innerContainer .flatpickr-weekdays .flatpickr-weekday:nth-child(7),
+.flatpickr-calendar .flatpickr-innerContainer .flatpickr-days .flatpickr-day:not(.flatpickr-disabled):not(.prevMonthDay):not(.nextMonthDay):nth-child(7n) {
+    color: rgb(94, 141, 230);
+}
+
+.event {
+    position: absolute;
+    width: 10px;
+    height: 3px;
+    border-radius: 150px;
+    bottom: 6px;
+    left: calc(50% - 5px);
+    content: " ";
+    display: block;
+    background: #3d8eb9;
+}
+.flatpickr-day:hover .event:before{
+    top: -25px;
+    left: -15px;
+    height: 20px;
+    width: 40px;
+    background-color: #ffffff;
+    color: #222;
+    content: attr(title);
+    line-height: 20px;
+    font-weight: bold;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+    display: block;
+    position: absolute;
+    border-radius: 5px;
+}

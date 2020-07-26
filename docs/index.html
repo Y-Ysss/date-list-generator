@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Date List Generator</title>
+    <link rel="stylesheet" type="text/css" href="libs/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+    <div id="bodyMain">
+        <div class="options">
+            <span class="title">Options</span>
+            <div class="option-item">
+                <span>日時の範囲</span>
+                <input id="datePick" class="input-wide" type="text">
+            </div>
+            <div class="option-item">
+                <span>就寝時間</span>
+                <input id="startBedTimePick" class="input-short" type="text"> ～
+                <input id="endBedTimePick" class="input-short" type="text">
+            </div>
+            <div class="option-item">
+                <span>仕事</span>
+                <input id="startWorkTimePick" class="input-short" type="text"> ～
+                <input id="endWorkTimePick" class="input-short" type="text">
+                <input type="checkbox" name="work" id="work0" value="0"><label for="work0">日</label>
+                <input type="checkbox" name="work" id="work1" value="1" checked><label for="work1">月</label>
+                <input type="checkbox" name="work" id="work2" value="2" checked><label for="work2">火</label>
+                <input type="checkbox" name="work" id="work3" value="3" checked><label for="work3">水</label>
+                <input type="checkbox" name="work" id="work4" value="4" checked><label for="work4">木</label>
+                <input type="checkbox" name="work" id="work5" value="5" checked><label for="work5">金</label>
+                <input type="checkbox" name="work" id="work6" value="6"><label for="work6">土</label>
+            </div>
+            <div class="option-item">
+                <span>回数</span>
+                <input id="perDay" class="input-short" type="number" value="1" min="1" max="23">
+            </div>
+            <div class="option-item">
+                <span>頻度</span>
+                <input id="frequently" class="input-short" type="number" value="1" min="1" max="23">
+            </div>
+            <div class="option-item">
+                <div id="btnGenerate" class="btn">Generate</div>
+            </div>
+        </div>
+        <div id="calendarView">
+            <span class="title">Calendar</span>
+            <input id="dateView" type="text" style="display: none;">
+        </div>
+        <div id="date-list-view">
+            <span class="title">Date List</span>
+            <ol id="date-list">
+            </ol>
+        </div>
+    </div>
+
+    <script src="libs/dayjs.min.js"></script>
+    <script src="libs/dayjs.plugin.isBetween.js"></script>
+    <script src="libs/flatpickr.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
