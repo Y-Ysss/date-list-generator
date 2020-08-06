@@ -1,10 +1,10 @@
 
-#bodyMain {
+.body-main {
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
 
-#bodyMain > div {
+.body-main > div {
     background-color: #eee;
     padding: 1rem;
     margin: .2rem;
@@ -42,20 +42,26 @@ input[type=number] {
 .btn {
     display: inline-block;
     padding: .4rem 1rem;
-    background-color: lightskyblue;
+    background-color: #87cefa;
     border-radius: .6rem;
     cursor: pointer;
+    transition: linear 0.14s;
     box-shadow: 0 .2rem .4rem rgba(0, 0, 0, 0.2);
 }
-
+.btn:hover {
+    box-shadow: 0 .2rem .2rem rgba(0, 0, 0, 0.2);
+}
 .btn:active {
     transform: translateY(2px);
     box-shadow: none;
 }
-#date-list-view {
+.link-list a {
+    margin-left: 1rem;
+}
+.date-list-view {
     grid-column: 1/3;
 }
-#date-list {
+.date-list {
     background-color: #fff;
     border-radius: .6rem;
     padding-inline-start: 3.5rem;

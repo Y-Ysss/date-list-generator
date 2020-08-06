@@ -1,5 +1,6 @@
 dayjs.extend(window.dayjs_plugin_isBetween)
-
+dayjs.extend(window.dayjs_plugin_toObject)
+dayjs.extend(window.dayjs_plugin_toArray)
 class DateList {
     constructor() {
         this.perDay = 1
@@ -25,7 +26,7 @@ class DateList {
             start = end
             end = end.add(this.frequently, 'day')
         }
-        return list
+        return list.sort((a, b) => a.$d - b.$d)
     }
     _randomDate(s, e) {
         return new Date(s.valueOf() + (e.valueOf() - s.valueOf()) * Math.random())
@@ -78,10 +79,17 @@ class DateList {
 
 class CreateElement {
     constructor(list) {
-        this.sorted = list.sort((a, b) => a.$d - b.$d)
+        this.list = list
+        this.formatList = ['String', 'JST', 'Comma', 'ISO', 'UnixTime', 'Array', 'Object']
     }
-    addCalendar() {
-        const groupBy = this.sorted.reduce((result, current) => {
+    create() {
+        this._addCalendar()
+        this._addDateList()
+        this._addDownloadLink()
+        this._addFormatSample()
+    }
+    _addCalendar() {
+        const groupBy = this.list.reduce((result, current) => {
             const name = current.format('YYYYMMDD')
             const el = result.find(value => value.key === name)
             if(el) {
@@ -101,26 +109,101 @@ class CreateElement {
         optView.onDayCreate = (dObj, dStr, fp, dayElem) => {
             groupBy.some(a => {
                 if(a.key == dayElem.getAttribute('aria-label')) {
-                    dayElem.innerHTML += "<div class='event' title=" + a.count + "></div>"
+                    dayElem.innerHTML += '<div class="event" title="' + a.count + '"></div>'
                 }
             })
         }
         flatpickr('#dateView', optView)
     }
 
-    addDateList() {
+    _addDateList() {
         const fragment = document.createDocumentFragment()
         const liBase = document.createElement('li')
-        for (const item of this.sorted) {
-        const li = liBase.cloneNode()
-        li.innerText = item.format('YYYY-MM-DD (ddd) HH:mm:ss')
-        li.className = 'list-item'
-        fragment.appendChild(li)
-    }
+        for (const item of this.list) {
+            const li = liBase.cloneNode()
+            li.innerText = item.format('YYYY-MM-DD (ddd) HH:mm:ss Z')
+            li.className = 'list-item'
+            fragment.appendChild(li)
+        }
 
-    const dateList = document.getElementById('date-list')
-    dateList.textContent = null
-    dateList.appendChild(fragment)
+        const dateList = document.getElementById('dateList')
+        dateList.textContent = null
+        dateList.appendChild(fragment)
+    }
+    _addDownloadLink() {
+        const fragment1 = document.createDocumentFragment()
+        const fragment2 = document.createDocumentFragment()
+        for (const item of this.formatList) {
+            fragment1.appendChild(this._setExport(item, this._generateArray(item)))
+            fragment2.appendChild(this._setExport(item, this._generateString(item)))
+        }
+        const downloadArray = document.getElementById('downloadArray')
+        const downloadList = document.getElementById('downloadList')
+        downloadArray.textContent = null
+        downloadList.textContent = null
+        downloadArray.appendChild(fragment1)
+        downloadList.appendChild(fragment2)
+    }
+    _addFormatSample() {
+        const fragment = document.createDocumentFragment()
+        for (const item of this.formatList) {
+            const td1 = document.createElement('td')
+            const td2 = document.createElement('td')
+            td1.innerText = item
+            td2.innerText = JSON.stringify(this._format(dayjs(), item))
+            const tr = document.createElement('tr')
+            tr.appendChild(td1)
+            tr.appendChild(td2)
+            fragment.appendChild(tr)
+        }
+        const formatSample = document.getElementById('formatSample')
+        formatSample.textContent = null
+        formatSample.appendChild(fragment)
+    }
+    _setExport(title, data) {
+        const a = document.createElement('a')
+        a.href = window.URL.createObjectURL(this._generateBlob(data))
+        a.innerText = title
+        const span = document.createElement('sapn')
+        span.appendChild(a)
+        return span
+    }
+    _generateBlob(list) {
+        return new Blob([list], { 'type' : 'text/plain' })
+    }
+    _generateArray(type) {
+        let data = []
+        for (const item of this.list) {
+            data.push(this._format(item, type))
+        }
+        return JSON.stringify(data)
+    }
+    _generateString(type) {
+        let data = ''
+        for (const item of this.list) {
+            data += this._format(item, type) + '\n'
+        }
+        return data
+    }
+    _format(item, type) {
+        switch(type) {
+            case 'String':
+                return item.toString()
+            case 'JST':
+                return item.format('YYYY-MM-DDTHH:mm:ssZZ')
+            case 'Comma':
+                return item.format('YYYY,MM,DD,ddd,HH,mm,ss,ZZ')
+            case 'ISO':
+                return item.toISOString()
+            case 'UnixTime':
+                return item.unix()
+            case 'Array':
+                return item.toArray()
+            case 'Object':
+                return item.toObject()
+            default:
+                return item
+        }
     }
 }
 
@@ -134,7 +217,7 @@ const fpOptions = {
     time: {
         enableTime: true,
         noCalendar: true,
-        dateFormat: "H:i",
+        dateFormat: 'H:i',
         time_24hr: true
     }
 }
@@ -157,7 +240,8 @@ document.getElementById('btnGenerate').addEventListener('click', () => {
     g.setFrequently(document.getElementById('frequently').value)
     g.setDayOfWeek([...document.getElementsByName('work')].filter(el => el.checked).map(el => el.value))
 
-    const ce = new CreateElement(g.generate())
-    ce.addCalendar()
-    ce.addDateList()
+    const dateList = g.generate()
+    const ce = new CreateElement(dateList)
+    ce.create()
 })
+

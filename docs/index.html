@@ -6,10 +6,11 @@
     <title>Date List Generator</title>
     <link rel="stylesheet" type="text/css" href="libs/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <base target="_blank">
 </head>
 
 <body>
-    <div id="bodyMain">
+    <div class="body-main">
         <div class="options">
             <span class="title">Options</span>
             <div class="option-item">
@@ -49,15 +50,39 @@
             <span class="title">Calendar</span>
             <input id="dateView" type="text" style="display: none;">
         </div>
-        <div id="date-list-view">
+        <div>
+            <span class="title">Downloads</span>
+            <div class="link-list">
+                <span>JSON Array</span>
+                <div id="downloadArray"></div>
+                <span>List</span>
+                <div id="downloadList"></div>
+            </div>
+            <!-- <div>
+                CSV(UTC): <a id="aaa" download="a.txt"></a>
+                JSON Array(UTC): <a id="downloadUtcArray" download="arrayUTC.txt"></a>
+                JSON Array(JST): <a id="downloadJstArray" download="arrayJST.txt"></a>
+                CSV(UTC): <a id="downloadUtcCsv" download="arrayUTS.csv"></a>
+                CSV(JST): <a id="downloadJstCsv" download="arrayJST.csv"></a>
+            </div> -->
+        </div>
+        <div>
+            <span class="title">Date Formats</span>
+            <table id="formatSample">
+                
+            </table>
+        </div>
+        <div class="date-list-view">
             <span class="title">Date List</span>
-            <ol id="date-list">
+            <ol id="dateList" class="date-list">
             </ol>
         </div>
     </div>
 
     <script src="libs/dayjs.min.js"></script>
     <script src="libs/dayjs.plugin.isBetween.js"></script>
+    <script src="libs/dayjs.plugin.toObject.js"></script>
+    <script src="libs/dayjs.plugin.toArray.js"></script>
     <script src="libs/flatpickr.js"></script>
     <script src="index.js"></script>
 </body>
