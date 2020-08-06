@@ -1,8 +1,13 @@
 # Date List Generator
 Generate a list of dates and times.
 
-## Unimplemented
-- Export date list
+## Usage
+### Generate on the sample page
+[y-ysss.github.io/date-list-generator](https://y-ysss.github.io/date-list-generator/)
+
+or
+
+Download this repository and open `docs / index.html` in your browser.
 
 ## Attributions
 ### Javascript Libraries
