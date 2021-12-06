@@ -104,7 +104,8 @@ class CreateElement {
         }, [])
         let optView = {
             ariaDateFormat: 'Ymd',
-            inline: true
+            inline: true,
+            defaultDate: this._format(this.list[0], 'ISO')
         }
         optView.onDayCreate = (dObj, dStr, fp, dayElem) => {
             groupBy.some(a => {
@@ -231,7 +232,20 @@ const startWorkTime = flatpickr('#startWorkTimePick', fpOptions.time)
 fpOptions.time.defaultDate = '19:00'
 const endWorkTime = flatpickr('#endWorkTimePick', fpOptions.time)
 
+const setCycleInfo = () => {
+    per = document.getElementById('perDay').value
+    days = document.getElementById('frequently').value
+    document.getElementById('actionCycleText').textContent = days + '日で約' + per + '回'
+}
+
+document.querySelectorAll('.action-cycle').forEach((target) => {
+    target.addEventListener('change', () => {
+        setCycleInfo()
+    })
+})
+
 document.getElementById('btnGenerate').addEventListener('click', () => {
+    setCycleInfo()
     const g = new DateList()
     g.setRange(dateRange.selectedDates[0], dateRange.selectedDates[1])
     g.setBedTime(startBedTime.selectedDates, endBedTime.selectedDates)
